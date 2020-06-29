@@ -1,0 +1,153 @@
+/*html,body{*/
+/*    background-image: url('https://thietbiketnoi.com/wp-content/uploads/2020/01/tong-hop-hinh-nen-background-vector-designer-dep-do-phan-giai-fhd-2k-4k-moi-nhat-16-scaled.jpg') !important;*/
+/*    background-size: cover;*/
+/*    !*background-repeat: no-repeat;*!*/
+/*    height: 100%;*/
+/*    background-repeat:repeat-x;*/
+/*    background-attachment:fixed;*/
+/*    background-position: left top;*/
+/*}*/
+
+body{
+    background-color: #dee9ff;
+}
+
+#s-body{
+    margin-top: 5px;
+    float: left;
+}
+
+#head,#s-body, #footer{
+    width: 100%;
+    margin-bottom: 5px;
+    clear: both;
+}
+
+
+/*---------------------------------------------*/
+@media all and (min-width: 993px) {
+    body {
+        width: 100%;
+    }
+
+    #left {
+        width: 23%;
+        min-height: 510px;
+        border: 1px solid #cdcdcd;
+        float: left;
+        background-color: #cdcdcd;
+        text-align: left;
+    }
+
+    #content {
+        width: 76.6%;
+        min-height: 510px;
+        border: 1px solid #cdcdcd;
+        background-color: #cdcdcd;
+        float: left;
+        margin-left: 5px;
+    }
+
+    #footer {
+        height: 50px;
+        clear: both;
+        border: 1px solid #000;
+        background-color: #000;
+    }
+}
+
+@media all and (max-width: 992px) {
+    body {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    #left {
+        width: 23%;
+        min-height: 410px;
+        border: 1px solid #cdcdcd;
+        float: left;
+        background-color: #cdcdcd;
+        text-align: left;
+    }
+
+    #content {
+        width: 76.6%;
+        min-height: 410px;
+        border: 1px solid #cdcdcd;
+        background-color: #cdcdcd;
+        float: left;
+        margin-left: 5px;
+    }
+
+    #footer {
+        height: 45px;
+        clear: both;
+        border: 1px solid #000;
+        background-color: #000;
+    }
+}
+
+@media all and (max-width: 768px) {
+    body {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    #left {
+        width: 23%;
+        min-height: 350px;
+        border: 1px solid #cdcdcd;
+        float: left;
+        background-color: #cdcdcd;
+        text-align: left;
+    }
+
+    #content {
+        width: 76.6%;
+        min-height: 350px;
+        border: 1px solid #cdcdcd;
+        background-color: #cdcdcd;
+        float: left;
+        margin-left: 5px;
+    }
+
+    #footer {
+        height: 40px;
+        clear: both;
+        border: 1px solid #000;
+        background-color: #000;
+    }
+}
+
+@media all and (max-width: 576px) {
+    body {
+        width: 100%;
+        font-size: 10px;
+    }
+
+    #left {
+        width: 23%;
+        min-height: 250px;
+        border: 1px solid #cdcdcd;
+        float: left;
+        background-color: #cdcdcd;
+        text-align: left;
+    }
+
+    #content {
+        width: 76.6%;
+        min-height: 250px;
+        border: 1px solid #cdcdcd;
+        background-color: #cdcdcd;
+        float: left;
+        margin-left: 5px;
+    }
+
+    #footer {
+        height: 35px;
+        clear: both;
+        border: 1px solid #000;
+        background-color: #000;
+    }
+}

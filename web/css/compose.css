@@ -1,0 +1,53 @@
+#s-body table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 1000px;
+}
+
+#s-body table th{
+    text-align: center;
+}
+
+#s-body table td, th {
+    border: 1px solid gray;
+    text-align: left;
+    padding: 8px; /*thêm vào khoảng không cho thành phần*/
+}
+
+table .button[type="button"] {
+    background: darkorange;
+}
+
+/*----------------*/
+#s-body button[type="button"]{
+    background-color: lightblue;
+    font-family: arial, sans-serif;
+    width: 100%;
+    height: 30px;
+}
+
+#s-body button[type="submit"]{
+    /*background-color: lightblue;*/
+    font-family: arial, sans-serif;
+    width: 248px;
+    height: 30px;
+}
+
+#s-body input[type="text"] {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 5px;
+}
+
+/*#s-body input[type="datetime-local"] {*/
+/*    margin-bottom: 10px;*/
+/*    width: 100%;*/
+/*    padding: 5px;*/
+/*}*/
+
+#s-body input[type = "submit"]{
+    margin-bottom: 10px;
+    width: 100px;
+    padding: 5px;
+    background-color: lightblue;
+}
