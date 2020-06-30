@@ -1,13 +1,11 @@
 package document.controller;
 
 import document.model.Permission;
+import document.model.Text;
 import document.model.Users;
-import document.service.IPermissionService;
-import document.service.IUserService;
-import document.service.PermissionService;
+import document.service.*;
 import document.service.action.PermissionAction;
 import document.service.action.UserAction;
-import document.service.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +21,7 @@ import java.util.List;
 public class UsersServlet extends HttpServlet {
     IUserService userService = new UserService();
     IPermissionService permissionService = new PermissionService();
+    IDocumentService documentService = new DocumentService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -32,6 +31,9 @@ public class UsersServlet extends HttpServlet {
         }
         try {
             switch (action) {
+                case "editUserByAd":
+                    updateUserByAdmin(request,response);
+                    break;
                 case "signin":
                     signinUsers(request, response);
                     break;
@@ -46,7 +48,23 @@ public class UsersServlet extends HttpServlet {
         }
     }
 
-    String showName=null;
+    private void updateUserByAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String birthday = request.getParameter("birthday");
+        String gender = request.getParameter("gender");
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        Users user = new Users(id, name, email, password,birthday,gender);
+        this.userService.updateUser(user);
+
+        request.getRequestDispatcher("document/admin/administration.jsp");
+        response.sendRedirect("/users?action=admin");
+    }
+
+    String showName = null;
+
     private void signinUsers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
@@ -62,11 +80,11 @@ public class UsersServlet extends HttpServlet {
         } else {
             showName = UserAction.getNameToShow(user);
             permissionList = this.permissionService.checkAdmin(user);
-            if (PermissionAction.checkAdminTrueFalse(permissionList)){
+            if (PermissionAction.checkAdminTrueFalse(permissionList)) {
                 request.getRequestDispatcher("document/admin/homeAdmin.jsp");
                 response.sendRedirect("/users?action=homeAdmin");
 
-            }else {
+            } else {
                 request.getRequestDispatcher("document/homeUser.jsp");
                 response.sendRedirect("/users?action=homeUser");
             }
@@ -117,17 +135,20 @@ public class UsersServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "compose":
-                showComposeForm(request,response);
+            case "deleteUserByAd":
+                deleteUserByAdmin(request,response);
+                break;
+            case "editUserByAd":
+                showUpdateUserByAdmin(request,response);
                 break;
             case "admin":
-                showAdminForm(request,response);
+                showAdminForm(request, response);
                 break;
             case "homeAdmin":
-                showHomeAdminForm(request,response);
+                showHomeAdminForm(request, response);
                 break;
             case "homeUser":
-                showHomeUserForm(request,response);
+                showHomeUserForm(request, response);
                 break;
             case "signin":
                 showSigninForm(request, response);
@@ -141,13 +162,63 @@ public class UsersServlet extends HttpServlet {
         }
     }
 
-    private void showComposeForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher  = request.getRequestDispatcher("document/compose.jsp");
+    private void deleteUserByAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        this.userService.deleteUser(id);
+
+        List<Users> userList = this.userService.SelectAllUsers();
+        request.setAttribute("users", userList);
+
+        request.getRequestDispatcher("document/admin/administration.jsp");
+        response.sendRedirect("/users?action=admin");
+    }
+
+    private void showUpdateUserByAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        List<Text> listInbox = this.documentService.selectDocumentByCategoryName("Inbox");
+        List<Text> listSent = this.documentService.selectDocumentByCategoryName("Sent");
+        List<Text> listDraft = this.documentService.selectDocumentByCategoryName("Draft");
+        List<Text> listAllDoc = this.documentService.selectAllDocument();
+
+        Users user = this.userService.selectUserById(id);
+
+        int lengthAllDoc = listAllDoc.size();
+        int lengthInbox = listInbox.size();
+        int lengthSent = listSent.size();
+        int lengthDraft = listDraft.size();
+
+        request.setAttribute("messInbox", lengthInbox);
+        request.setAttribute("messSent", lengthSent);
+        request.setAttribute("messDraft", lengthDraft);
+        request.setAttribute("messAllDoc", lengthAllDoc);
+        request.setAttribute("messAllAddDraft", lengthAllDoc + lengthDraft);
+
+        request.setAttribute("user",user);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("document/admin/editUserByAdmin.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showAdminForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher  = request.getRequestDispatcher("document/admin/administration.jsp");
+        List<Text> listInbox = this.documentService.selectDocumentByCategoryName("Inbox");
+        List<Text> listSent = this.documentService.selectDocumentByCategoryName("Sent");
+        List<Text> listDraft = this.documentService.selectDocumentByCategoryName("Draft");
+        List<Text> listAllDoc = this.documentService.selectAllDocument();
+
+        List<Users> usersList = this.userService.SelectAllUsers();
+
+        int lengthAllDoc = listAllDoc.size();
+        int lengthInbox = listInbox.size();
+        int lengthSent = listSent.size();
+        int lengthDraft = listDraft.size();
+
+        request.setAttribute("messInbox", lengthInbox);
+        request.setAttribute("messSent", lengthSent);
+        request.setAttribute("messDraft", lengthDraft);
+        request.setAttribute("messAllDoc", lengthAllDoc);
+        request.setAttribute("messAllAddDraft", lengthAllDoc + lengthDraft);
+
+        request.setAttribute("users",usersList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("document/admin/administration.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -156,13 +227,29 @@ public class UsersServlet extends HttpServlet {
     }
 
     private void showHomeAdminForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("message",showName);
+        List<Text> listInbox = this.documentService.selectDocumentByCategoryName("Inbox");
+        List<Text> listSent = this.documentService.selectDocumentByCategoryName("Sent");
+        List<Text> listDraft = this.documentService.selectDocumentByCategoryName("Draft");
+        List<Text> listAllDoc = this.documentService.selectAllDocument();
+
+        int lengthAllDoc = listAllDoc.size();
+        int lengthInbox = listInbox.size();
+        int lengthSent = listSent.size();
+        int lengthDraft = listDraft.size();
+
+        request.setAttribute("messInbox", lengthInbox);
+        request.setAttribute("messSent", lengthSent);
+        request.setAttribute("messDraft", lengthDraft);
+        request.setAttribute("messAllDoc", lengthAllDoc);
+        request.setAttribute("messAllAddDraft", lengthAllDoc + lengthDraft);
+        request.setAttribute("message", showName);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("document/admin/homeAdmin.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showHomeUserForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("message",showName);
+        request.setAttribute("message", showName);
         RequestDispatcher dispatcher = request.getRequestDispatcher("document/homeUser.jsp");
         dispatcher.forward(request, response);
     }

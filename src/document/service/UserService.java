@@ -19,6 +19,11 @@ public class UserService implements IUserService {
     private static final String CHECK_EMAIL_PASS_USERS = "select id, name , email from users where email= ? and password = ?;";
     private static final String SELECT_ALL_USERS = "select * from users";
     private static final String SELECT_ALL_NAME_EMAILS = "select id, name, email from users;";
+    private static final String SELECT_USERS_BY_ID = "select * from users where id = ?";
+    private static final String UPDATE_USERS_ROW = "update users set name = ?,email = ?, password = ?, birthday = ?, gender = ? where id = ?";
+    private static final String DELETE_USERS_ROW = "delete from users where id = ?";
+
+
 
     private static final String SELECT_ACTION_CODE = "select action_code from Users as U"
             + " inner join User_Permission UP on U.id = UP.user_id"
@@ -47,12 +52,54 @@ public class UserService implements IUserService {
 
     @Override
     public List<Users> SelectAllUsers() {
-        return null;
+        List<Users> users = new ArrayList<>();
+        try (
+                Connection connection = getConnection();
+                PreparedStatement prstmt = connection.prepareStatement(SELECT_ALL_USERS);
+        ) {
+            System.out.println(prstmt);
+            ResultSet rs = prstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String birthday = rs.getString("birthday");
+                String gender = rs.getString("gender");
+                users.add(new Users(id, name, email, password,birthday,gender));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return users;
     }
 
-    @Override
+        @Override
     public Users selectUserById(int id) {
-        return null;
+            Users user = null;
+            try (
+                    Connection connection = getConnection();
+                    PreparedStatement prstmt = connection.prepareStatement(SELECT_USERS_BY_ID);
+            ) {
+                System.out.println(prstmt);
+                prstmt.setInt(1, id);
+                ResultSet rs = prstmt.executeQuery();
+
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+                    String birthday = rs.getString("birthday");
+                    String gender = rs.getString("gender");
+
+                    user = new Users(id, name, email, password,birthday,gender);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return user;
     }
 
 
@@ -125,12 +172,44 @@ public class UserService implements IUserService {
 
     @Override
     public boolean updateUser(Users user) {
-        return false;
+        boolean rowUpdated = false;
+        try (
+                Connection connection = getConnection();
+                PreparedStatement prstmt = connection.prepareStatement(UPDATE_USERS_ROW);
+        ) {
+            System.out.println(prstmt);
+            prstmt.setString(1, user.getName());
+            prstmt.setString(2, user.getEmail());
+            prstmt.setString(3, user.getPassword());
+            prstmt.setString(4, user.getBirthday());
+            prstmt.setString(5, user.getGender());
+            prstmt.setInt(6, user.getId());
+
+            System.out.println(prstmt);
+
+            rowUpdated = prstmt.executeUpdate() > 0;
+            System.out.println("Update successful yet? " + rowUpdated);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rowUpdated;
     }
 
     @Override
     public boolean deleteUser(int id) {
-        return false;
+        boolean rowDeleted = false;
+        try (
+                Connection connection = getConnection();
+                PreparedStatement prstmt = connection.prepareStatement(DELETE_USERS_ROW);
+        ) {
+            System.out.println(prstmt);
+            prstmt.setInt(1, id);
+            rowDeleted = prstmt.executeUpdate() > 0;
+            System.out.println("Successfully deleted? " + rowDeleted);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rowDeleted;
     }
 
     @Override

@@ -2,14 +2,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: VCOM
-  Date: 28/06/2020
-  Time: 5:02 CH
+  Date: 30/06/2020
+  Time: 12:00 SA
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Administration</title>
+    <title>Edit</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,8 +18,7 @@
     <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_compose.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/table.css">
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/compose.css">
 </head>
 <body>
 <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
@@ -72,7 +71,7 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-envelope-o">
                         <span class="badge badge-primary">
                             <c:if test="${requestScope['messAllAddDraft']!=null}">
@@ -84,12 +83,12 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/document?action=allDcmtAdmin">
-                        All document
                         <span class="badge badge-warning">
                             <c:if test="${requestScope['messAllDoc']!=null}">
                                 <span style="color: white" class="message">${requestScope["messAllDoc"]}</span>
                             </c:if>
                         </span>
+                        All document
                     </a>
                     <a class="dropdown-item" href="/document?action=draftAdmin">
                         <span class="badge badge-warning">
@@ -100,7 +99,7 @@
                         Draft
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item active" href="/users?action=admin">Administration</a>
+                    <a class="dropdown-item" href="/users?action=admin">Administration</a>
                 </div>
             </li>
         </ul>
@@ -141,51 +140,44 @@
 </nav>
 
 
-<div id="main">
+<form method="post" id="main">
     <div id="s-body">
         <div id="left">
-            <h4>Administration</h4>
-            <ul>
-                <li><a href="#">User list</a></li>
-                <li><a href="/document?action=allDcmtAdmin">Document list</a></li>
-            </ul>
+            <h4>Edit document by admin</h4>
+<%--            <c:if test="${requestScope['message']!=null}">--%>
+<%--                <span style="color: red" class="message">${requestScope["message"]}</span>--%>
+<%--            </c:if>--%>
         </div>
         <div id="content">
             <table>
                 <tr>
-                    <th>User Id</th>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Password</th>
-                    <th>Birthday</th>
-                    <th>Gender</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <td><label>Document name: </label></td>
+                    <td><input type="text" value="${requestScope['text'].getTextName()}" class="form-control" name="textName"></td>
                 </tr>
-                <c:forEach items="${requestScope['users']}" var="user">
-                    <tr>
-                        <td>${user.getId()}</td>
-                        <td>${user.getName()}</td>
-                        <td>${user.getEmail()}</td>
-                        <td>${user.getPassword()}</td>
-                        <td>${user.getBirthday()}</td>
-                        <td>${user.getGender()}</td>
-                        <td>
-                            <a href="/users?action=editUserByAd&id=${user.getId()}">
-                                <button class="form-control" type="button">Edit</button>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="/users?action=deleteUserByAd&id=${user.getId()}">
-                                <button class="form-control" type="button">Delete</button>
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <tr>
+                    <td><label>Description: </label></td>
+                    <td><textarea style="width: 100%;height: 325px;" class="form-control" name="description">${requestScope['text'].getDescription()}</textarea></td>
+                </tr>
+                <tr>
+                    <td><label>Date create: </label></td>
+                    <td>
+                        <%--                        <input style="width: 420px;float:left;" class="form-control" type="datetime-local" name="dateCreate">--%>
+                        <select style="width: 420px; float:left;" class="form-control" name="category">
+                            <option value="">Choose category</option>
+                            <option value="inbox">Inbox</option>
+                            <option value="sent">Sent</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit" class="btn btn-warning">Submit</button></td>
+                </tr>
             </table>
         </div>
     </div>
     <footer id="footer"></footer>
-</div>
+</form>
 </body>
 </html>

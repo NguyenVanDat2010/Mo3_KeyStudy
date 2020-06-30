@@ -2,14 +2,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: VCOM
-  Date: 28/06/2020
-  Time: 5:02 CH
+  Date: 30/06/2020
+  Time: 11:36 SA
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Administration</title>
+    <title>Edit User</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +18,7 @@
     <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_compose.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/table.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/compose.css">
 
 </head>
 <body>
@@ -141,51 +141,58 @@
 </nav>
 
 
-<div id="main">
+<form method="post" id="main">
     <div id="s-body">
         <div id="left">
-            <h4>Administration</h4>
-            <ul>
-                <li><a href="#">User list</a></li>
-                <li><a href="/document?action=allDcmtAdmin">Document list</a></li>
-            </ul>
+            <h4>Edit user by Admin</h4>
+            <c:if test="${requestScope['message']!=null}">
+                <span style="color: red" class="message">${requestScope["message"]}</span>
+            </c:if>
         </div>
         <div id="content">
             <table>
                 <tr>
-                    <th>User Id</th>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Password</th>
-                    <th>Birthday</th>
-                    <th>Gender</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <td><label>User Id: </label></td>
+                    <td><input type="text" name="id" value="${requestScope['user'].getId()}" class="form-control" disabled></td>
                 </tr>
-                <c:forEach items="${requestScope['users']}" var="user">
-                    <tr>
-                        <td>${user.getId()}</td>
-                        <td>${user.getName()}</td>
-                        <td>${user.getEmail()}</td>
-                        <td>${user.getPassword()}</td>
-                        <td>${user.getBirthday()}</td>
-                        <td>${user.getGender()}</td>
-                        <td>
-                            <a href="/users?action=editUserByAd&id=${user.getId()}">
-                                <button class="form-control" type="button">Edit</button>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="/users?action=deleteUserByAd&id=${user.getId()}">
-                                <button class="form-control" type="button">Delete</button>
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <tr>
+                    <td><label>User Name: </label></td>
+                    <td><input type="text" name="name" value="${requestScope['user'].getName()}" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td><label>Email: </label></td>
+                    <td><input type="text" name="email" value="${requestScope['user'].getEmail()}" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td><label>Password: </label></td>
+                    <td><input type="text" name="password" value="${requestScope['user'].getPassword()}" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td><label>Birthday: </label></td>
+                    <td>
+                        <input type="date" name="birthday" style="width: 420px" value="${requestScope['user'].getBirthday()}" class="form-control">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gender: </td>
+                    <td>
+                        <select style="width: 420px" class="form-control" name="gender">
+<%--                            <option value="">Choose gender</option>--%>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit" class="btn btn-warning">Submit</button></td>
+                </tr>
             </table>
         </div>
     </div>
     <footer id="footer"></footer>
-</div>
+</form>
+
 </body>
 </html>

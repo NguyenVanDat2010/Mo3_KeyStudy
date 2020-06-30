@@ -32,32 +32,40 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/users?action=homeAdmin">
                     <i class="fa fa-home"></i>
                     Home
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/document?action=composeAdmin">
                     <i class="fa fa-envelope-o">
-                        <span class="badge badge-danger">11</span>
+                        <span class="badge badge-danger"></span>
                     </i>
                     Compose
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="#">
+                <a class="nav-link " href="/document?action=inboxAdmin">
                     <i class="fa fa-envelope-o">
-                        <span class="badge badge-danger">11</span>
+                        <span class="badge badge-danger">
+                            <c:if test="${requestScope['messInbox']!=null}">
+                                <span style="color: white" class="message">${requestScope["messInbox"]}</span>
+                            </c:if>
+                        </span>
                     </i>
                     Inbox
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="#">
+                <a class="nav-link " href="/document?action=sentAdmin">
                     <i class="fa fa-envelope-o">
-                        <span class="badge badge-warning">11</span>
+                        <span class="badge badge-warning">
+                            <c:if test="${requestScope['messSent']!=null}">
+                                <span style="color: white" class="message">${requestScope["messSent"]}</span>
+                            </c:if>
+                        </span>
                     </i>
                     Sent
                 </a>
@@ -65,15 +73,33 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-envelope-o">
-                        <span class="badge badge-primary">11</span>
+                        <span class="badge badge-primary">
+                            <c:if test="${requestScope['messAllAddDraft']!=null}">
+                                <span style="color: white" class="message">${requestScope["messAllAddDraft"]}</span>
+                            </c:if>
+                        </span>
                     </i>
                     Category
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">All document</a>
-                    <a class="dropdown-item" href="#">Draft</a>
+                    <a class="dropdown-item" href="/document?action=allDcmtAdmin">
+                        All document
+                        <span class="badge badge-warning">
+                            <c:if test="${requestScope['messAllDoc']!=null}">
+                                <span style="color: white" class="message">${requestScope["messAllDoc"]}</span>
+                            </c:if>
+                        </span>
+                    </a>
+                    <a class="dropdown-item" href="/document?action=draftAdmin">
+                        Draft
+                        <span class="badge badge-warning">
+                            <c:if test="${requestScope['messDraft']!=null}">
+                                <span style="color: white" class="message">${requestScope["messDraft"]}</span>
+                            </c:if>
+                        </span>
+                    </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Administration</a>
+                    <a class="dropdown-item" href="/users?action=admin">Administration</a>
                 </div>
             </li>
         </ul>
@@ -119,11 +145,11 @@
         <div id="left">
             <h4>Category</h4>
             <ul>
-                <li><a href="/users?action=compose">Compose</a></li>
-                <li><a href="/users?action=inbox">Inbox</a></li>
-                <li><a href="/users?action=sent">Sent</a></li>
-                <li><a href="/users?action=allDcmt">All document</a></li>
-                <li><a href="/users?action=draft">Draft</a></li>
+                <li><a href="/document?action=composeAdmin">Compose</a></li>
+                <li><a href="/document?action=inboxAdmin">Inbox</a></li>
+                <li><a href="/document?action=sentAdmin">Sent</a></li>
+<%--                <li><a href="/document?action=allDcmtAdmin">All document</a></li>--%>
+                <li><a href="/document?action=draftAdmin">Draft</a></li>
                 <li><a href="/users?action=admin">Administration</a></li>
             </ul>
         </div>

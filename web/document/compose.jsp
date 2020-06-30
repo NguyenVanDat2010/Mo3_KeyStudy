@@ -30,7 +30,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/users?action=home">
+                <a class="nav-link" href="/users?action=homeUser">
                     <i class="fa fa-home"></i>
                     Home
                     <span class="sr-only">(current)</span>
@@ -134,7 +134,7 @@
                 <tr>
                     <td><label>Date create: </label></td>
                     <td>
-                        <input style="width: 420px;float:left;" class="form-control" type="datetime-local" name="dateCreate">
+<%--                        <input style="width: 420px;float:left;" class="form-control" type="datetime-local" name="dateCreate">--%>
                         <select style="width: 420px; float:left;" class="form-control" name="gender">
                             <option value="">Choose category</option>
                             <option value="compose">Compose</option>

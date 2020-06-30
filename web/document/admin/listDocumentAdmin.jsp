@@ -2,14 +2,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: VCOM
-  Date: 28/06/2020
-  Time: 5:02 CH
+  Date: 29/06/2020
+  Time: 9:15 CH
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Administration</title>
+    <title>List Document Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_compose.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/table.css">
-
 </head>
 <body>
 <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
@@ -83,13 +82,13 @@
                     Category
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/document?action=allDcmtAdmin">
-                        All document
+                    <a class="dropdown-item active" href="/document?action=allDcmtAdmin">
                         <span class="badge badge-warning">
                             <c:if test="${requestScope['messAllDoc']!=null}">
                                 <span style="color: white" class="message">${requestScope["messAllDoc"]}</span>
                             </c:if>
                         </span>
+                        All document
                     </a>
                     <a class="dropdown-item" href="/document?action=draftAdmin">
                         <span class="badge badge-warning">
@@ -100,7 +99,7 @@
                         Draft
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item active" href="/users?action=admin">Administration</a>
+                    <a class="dropdown-item" href="/users?action=admin">Administration</a>
                 </div>
             </li>
         </ul>
@@ -136,47 +135,44 @@
                 </li>
             </ul>
         </form>
-
     </div>
 </nav>
 
-
-<div id="main">
+<form id="main">
     <div id="s-body">
         <div id="left">
-            <h4>Administration</h4>
-            <ul>
-                <li><a href="#">User list</a></li>
-                <li><a href="/document?action=allDcmtAdmin">Document list</a></li>
-            </ul>
+            <h2>List Document</h2>
+            <span class="badge badge-warning">
+                <h6> Number of records:
+                    <c:if test="${requestScope['messAllDoc']!=null}">
+                        <span style="color: white" class="message">${requestScope["messAllDoc"]}</span>
+                    </c:if>
+                </h6>
+            </span>
         </div>
         <div id="content">
             <table>
                 <tr>
-                    <th>User Id</th>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Password</th>
-                    <th>Birthday</th>
-                    <th>Gender</th>
+                    <th>Document Name</th>
+                    <th>Description</th>
+                    <th>Date Create</th>
+                    <th>Category</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
-                <c:forEach items="${requestScope['users']}" var="user">
+                <c:forEach items="${requestScope['documents']}" var="doc">
                     <tr>
-                        <td>${user.getId()}</td>
-                        <td>${user.getName()}</td>
-                        <td>${user.getEmail()}</td>
-                        <td>${user.getPassword()}</td>
-                        <td>${user.getBirthday()}</td>
-                        <td>${user.getGender()}</td>
+                        <td>${doc.getTextName()}</td>
+                        <td ><p class="hide">${doc.getDescription()}</p></td>
+                        <td>${doc.getDateCreate()}</td>
+                        <td>${doc.getCategoryName()}</td>
                         <td>
-                            <a href="/users?action=editUserByAd&id=${user.getId()}">
+                            <a href="/document?action=editDoc&id=${doc.getTextId()}">
                                 <button class="form-control" type="button">Edit</button>
                             </a>
                         </td>
                         <td>
-                            <a href="/users?action=deleteUserByAd&id=${user.getId()}">
+                            <a href="/document?action=deleteDoc&id=${doc.getTextId()}">
                                 <button class="form-control" type="button">Delete</button>
                             </a>
                         </td>
@@ -186,6 +182,8 @@
         </div>
     </div>
     <footer id="footer"></footer>
-</div>
+</form>
+
+
 </body>
 </html>

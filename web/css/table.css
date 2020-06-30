@@ -2,24 +2,44 @@
     font-family: arial, sans-serif;
     border: 1px solid blueviolet;
     border-collapse: collapse;
-    width: 1000px;
+    width: 100%;
 }
 
-#s-body table th{
+#s-body table tr th{
     text-align: center;
 }
 
-#s-body table td, th {
-    border: 1px solid gray;
+#s-body table th ,td {
+    border: 1px solid blueviolet;
     text-align: left;
-    padding: 8px; /*thêm vào khoảng không cho thành phần*/
+    padding: 3px; /*thêm vào khoảng không cho thành phần*/
 }
 
-table .button[type="button"] {
-    background: darkorange;
+#s-body table td p{
+    /*border: 1px solid #cc0000;*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 500px;
 }
 
-/*----------------*/
+tr:nth-child(odd) {
+    background-color: #28a745;
+}
+
+#s-body table button[type="button"] {
+    background: #ffdf7e !important;
+}
+
+#s-body table button[type="button"]:hover {
+    background: #6610f2 !important;
+}
+
+#s-body table td a{
+    text-decoration: none;
+}
+
+    /*----------------*/
 #s-body button[type="button"]{
     background-color: lightblue;
     font-family: arial, sans-serif;
@@ -39,12 +59,6 @@ table .button[type="button"] {
     width: 100%;
     padding: 5px;
 }
-
-/*#s-body input[type="datetime-local"] {*/
-/*    margin-bottom: 10px;*/
-/*    width: 100%;*/
-/*    padding: 5px;*/
-/*}*/
 
 #s-body input[type = "submit"]{
     margin-bottom: 10px;
