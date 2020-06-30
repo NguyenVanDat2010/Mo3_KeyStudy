@@ -31,6 +31,9 @@ public class UsersServlet extends HttpServlet {
         }
         try {
             switch (action) {
+                case "addUserByAdmin":
+                    addUserByAdmin(request,response);
+                    break;
                 case "editUserByAd":
                     updateUserByAdmin(request,response);
                     break;
@@ -46,6 +49,34 @@ public class UsersServlet extends HttpServlet {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    private void addUserByAdmin(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String birthday = request.getParameter("birthday");
+        String gender = request.getParameter("gender");
+
+        List<Users> listUsers = this.userService.selectAllNameAndEmail();
+
+        RequestDispatcher dispatcher;
+
+        if (UserAction.checkEmail(email, listUsers) && UserAction.validate(password)) {
+            Users user = new Users(name, email, password, birthday, gender);
+            this.userService.insertUser(user);
+            request.setAttribute("message","Add user success!");
+        } else {
+            if (!UserAction.validate(password)) {
+                request.setAttribute("message", "Password must contain at least 8 characters that contain at least one lowercase letter, one uppercase letter, a number and a special character!");
+            } else if (!UserAction.checkEmail(email, listUsers)) {
+                request.setAttribute("message", "Email already in use, Please try another email!");
+            } else {
+                request.setAttribute("message", "Do not leave fields blank!");
+            }
+        }
+        request.getRequestDispatcher("document/admin/createUserByAdmin.jsp");
+        response.sendRedirect("/users?action=addUserByAdmin");
     }
 
     private void updateUserByAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -135,6 +166,9 @@ public class UsersServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
+            case "addUserByAdmin":
+                showaddUserByAdmin(request,response);
+                break;
             case "deleteUserByAd":
                 deleteUserByAdmin(request,response);
                 break;
@@ -160,6 +194,27 @@ public class UsersServlet extends HttpServlet {
                 actionSignin(request, response);
                 break;
         }
+    }
+
+    private void showaddUserByAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Text> listInbox = this.documentService.selectDocumentByCategoryName("Inbox");
+        List<Text> listSent = this.documentService.selectDocumentByCategoryName("Sent");
+        List<Text> listDraft = this.documentService.selectDocumentByCategoryName("Draft");
+        List<Text> listAllDoc = this.documentService.selectAllDocument();
+
+        int lengthAllDoc = listAllDoc.size();
+        int lengthInbox = listInbox.size();
+        int lengthSent = listSent.size();
+        int lengthDraft = listDraft.size();
+
+        request.setAttribute("messInbox", lengthInbox);
+        request.setAttribute("messSent", lengthSent);
+        request.setAttribute("messDraft", lengthDraft);
+        request.setAttribute("messAllDoc", lengthAllDoc);
+        request.setAttribute("messAllAddDraft", lengthAllDoc + lengthDraft);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("document/admin/createUserByAdmin.jsp");
+        dispatcher.forward(request, response);
     }
 
     private void deleteUserByAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -210,12 +265,14 @@ public class UsersServlet extends HttpServlet {
         int lengthInbox = listInbox.size();
         int lengthSent = listSent.size();
         int lengthDraft = listDraft.size();
+        int lengthUser = usersList.size();
 
         request.setAttribute("messInbox", lengthInbox);
         request.setAttribute("messSent", lengthSent);
         request.setAttribute("messDraft", lengthDraft);
         request.setAttribute("messAllDoc", lengthAllDoc);
         request.setAttribute("messAllAddDraft", lengthAllDoc + lengthDraft);
+        request.setAttribute("messCountUser",lengthUser);
 
         request.setAttribute("users",usersList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("document/admin/administration.jsp");

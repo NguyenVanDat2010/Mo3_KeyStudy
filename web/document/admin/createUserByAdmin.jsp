@@ -2,14 +2,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: VCOM
-  Date: 29/06/2020
-  Time: 3:32 CH
+  Date: 30/06/2020
+  Time: 2:18 CH
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Compose Admin</title>
+    <title>Add User</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin_compose.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/compose.css">
+
 </head>
 <body>
 <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
@@ -38,7 +39,7 @@
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/document?action=composeAdmin">
                     <i class="fa fa-envelope-o">
                         <span class="badge badge-danger"></span>
@@ -71,7 +72,7 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-envelope-o">
                         <span class="badge badge-primary">
                             <c:if test="${requestScope['messAllAddDraft']!=null}">
@@ -83,12 +84,13 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/document?action=allDcmtAdmin">
+                        All document
                         <span class="badge badge-warning">
                             <c:if test="${requestScope['messAllDoc']!=null}">
                                 <span style="color: white" class="message">${requestScope["messAllDoc"]}</span>
                             </c:if>
                         </span>
-                        All document</a>
+                    </a>
                     <a class="dropdown-item" href="/document?action=draftAdmin">
                         <span class="badge badge-warning">
                             <c:if test="${requestScope['messDraft']!=null}">
@@ -98,7 +100,7 @@
                         Draft
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/users?action=admin">Administration</a>
+                    <a class="dropdown-item active" href="/users?action=admin">Administration</a>
                 </div>
             </li>
         </ul>
@@ -139,36 +141,48 @@
 </nav>
 
 
-<form method="post" action="/document?action=composeAdmin" id="main">
+<form method="post" action="/users?action=addUserByAdmin" id="main">
     <div id="s-body">
         <div id="left">
-            <h2>Compose Admin</h2>
+            <h2>Add user by Admin</h2>
             <c:if test="${requestScope['message']!=null}">
                 <span style="color: red" class="message">${requestScope["message"]}</span>
             </c:if>
         </div>
         <div id="content">
             <table>
+<%--                <tr>--%>
+<%--                    <td><label>User Id: </label></td>--%>
+<%--                    <td><input type="text" name="id" value="${requestScope['user'].getId()}" class="form-control" disabled></td>--%>
+<%--                </tr>--%>
                 <tr>
-                    <td><label>Document name: </label></td>
-                    <td><input type="text" class="form-control" name="textName"></td>
+                    <td><label>User Name: </label></td>
+                    <td><input type="text" name="name" value="${requestScope['user'].getName()}" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td><label>Description: </label></td>
-                    <td><textarea style="width: 100%;height: 325px;" class="form-control" name="description"></textarea></td>
+                    <td><label>Email: </label></td>
+                    <td><input type="text" name="email" value="${requestScope['user'].getEmail()}" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td><label>Date create: </label></td>
+                    <td><label>Password: </label></td>
+                    <td><input type="password" name="password" value="${requestScope['user'].getPassword()}" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td><label>Birthday: </label></td>
                     <td>
-                        <%--                        <input style="width: 420px;float:left;" class="form-control" type="datetime-local" name="dateCreate">--%>
-                        <select style="width: 420px; float:left;" class="form-control" name="category">
-                            <option value="">Choose category</option>
-                            <option value="inbox">Inbox</option>
-                            <option value="sent">Sent</option>
-                            <option value="draft">Draft</option>
-                        </select>
+                        <input type="date" name="birthday" style="width: 420px" value="${requestScope['user'].getBirthday()}" class="form-control">
                     </td>
                 </tr>
+                <tr>
+                    <td>Gender: </td>
+                    <td>
+                        <select style="width: 420px" class="form-control" name="gender">
+                            <%--                            <option value="">Choose gender</option>--%>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td></td>
@@ -179,5 +193,6 @@
     </div>
     <footer id="footer"></footer>
 </form>
+
 </body>
 </html>

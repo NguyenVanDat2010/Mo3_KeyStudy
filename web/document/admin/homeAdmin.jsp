@@ -155,9 +155,10 @@
         </div>
         <div id="content">
             <h1>Welcome</h1>
-            <p>Là đơn vị tham chiếu tỷ lệ so với một phần tử mẹ của nó dựa vào kích thước. Ví dụ bạn có một cái khung với kích thước là 500px và khung bên trong có kích thước là 50% thì nó sẽ là 250px. Nếu bạn sử dụng đơn vị phần trăm này để gán kích thước cho thẻ <html> trên website thì nó sẽ thay đổi theo kích thước màn hình hoặc/cửa sổ website.</p>
-            <h3>Test</h3>
-            <p>Trong bài này mình chỉ đề cập đến các đơn vị thường dùng.</p>
+            <p>A document is a written, drawn, presented, or memorialized representation of thought, often the manifestation of non-fictional, as well as fictional, content. The word originates from the Latin Documentum, which denotes a "teaching" or "lesson": the verb doceō denotes "to teach". In the past, the word was usually used to denote written proof useful as evidence of a truth or fact. In the computer age, "document" usually denotes a primarily textual computer file, including its structure and format, e.g. fonts, colors, and images. Contemporarily, "document" is not defined by its transmission medium, e.g., paper, given the existence of electronic documents. "Documentation" is distinct because it has more denotations than "document". Documents are also distinguished from "realia", which are three-dimensional objects that would otherwise satisfy the definition of "document" because they memorialize or represent thought; documents are considered more as 2-dimensional representations. While documents can have large varieties of customization, all documents can be shared freely and have the right to do so, creativity can be represented by documents, also. History, events, examples, opinions, etc. all can be expressed in documents.</p>
+<%--            <h3>Test</h3>--%>
+            <p>The concept of "document" has been defined by Suzanne Briet as "any concrete or symbolic indication, preserved or recorded, for reconstructing or for proving a phenomenon, whether physical or mental."</p>
+            <p>The document had the right to change within 5 days on the date of registration</p>
         </div>
         <div id="right">
             <p>

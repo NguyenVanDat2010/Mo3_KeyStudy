@@ -144,11 +144,19 @@
 <div id="main">
     <div id="s-body">
         <div id="left">
-            <h4>Administration</h4>
+            <h2>Administration</h2>
             <ul>
-                <li><a href="#">User list</a></li>
+                <li><a href="/users?action=admin">User list</a></li>
+                <li><a href="/users?action=addUserByAdmin">Create User</a></li>
                 <li><a href="/document?action=allDcmtAdmin">Document list</a></li>
             </ul>
+            <span class="badge badge-warning">
+                <h6> Number of users:
+                    <c:if test="${requestScope['messCountUser']!=null}">
+                        <span style="color: white" class="message">${requestScope["messCountUser"]}</span>
+                    </c:if>
+                </h6>
+            </span>
         </div>
         <div id="content">
             <table>
